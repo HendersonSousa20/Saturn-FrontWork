@@ -362,6 +362,17 @@ nav a:hover::after {
         display: flex;
     }
 
+    .wrapple_texts h1 {
+    font-family: 'Anta';
+    font-size: 3rem;
+   
+}
+
+.wrapple_texts p {
+    font-size: 1.2rem;
+   
+}
+
     .nav-menu {
         display: block;
         position: fixed;
