@@ -1,214 +1,433 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" class="scroll-smooth">
 
   <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Saturn Frontwork | Advanced Digital Atelier</title>
 
-    <!-- Importação das fontes do Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat&amp;family=Prosto+One&amp;family=Zen+Dots&amp;display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Anta&amp;family=Inter:wght@100;300;400;600;900&amp;display=swap" rel="stylesheet">
 
-    <!-- Importação da fonte Anta -->
-    <link href="https://fonts.googleapis.com/css2?family=Anta&amp;display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --accent: #fb0165;
+        --bg: #050505;
+      }
 
-    <title>Saturn FrontWork</title>
-    <script type="text/javascript" src="./script.js" defer=""></script>
-    <link rel="stylesheet" href="./style.css">
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--bg);
+        color: white;
+        overflow-x: hidden;
+      }
+
+      .font-anta {
+        font-family: 'Anta', sans-serif;
+      }
+
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #000;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: var(--accent);
+        border-radius: 10px;
+      }
+
+      /* Typography High-End */
+      .text-display {
+        font-weight: 900;
+        letter-spacing: -0.05em;
+        line-height: 0.9;
+      }
+
+      /* Premium Glassmorphism */
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.015);
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .glass-panel:hover {
+        background: rgba(255, 255, 255, 0.04);
+        border-color: rgba(251, 1, 101, 0.4);
+        transform: translateY(-8px) scale(1.01);
+      }
+
+      /* Hero Saturn Animation */
+      .saturn-ring {
+        position: absolute;
+        border: 1px solid rgba(251, 1, 101, 0.2);
+        border-radius: 50%;
+        animation: rotate 20s linear infinite;
+      }
+
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Noise Texture Overlay */
+      .noise {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: url('https://grainy-gradients.vercel.app/noise.svg');
+        opacity: 0.05;
+        pointer-events: none;
+        z-index: 9998;
+      }
+
+      /* Reveal Animations */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 1s ease-out;
+      }
+
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Glow Elements */
+      .glow-dot {
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(251, 1, 101, 0.15) 0%, transparent 70%);
+        position: absolute;
+        filter: blur(60px);
+        pointer-events: none;
+      }
+
+      @media (min-width: 768px) {
+        .glow-dot {
+          width: 500px;
+          height: 500px;
+        }
+      }
+
+      /* Menu Mobile Animations */
+      #mobile-menu {
+        clip-path: circle(0% at top right);
+        transition: clip-path 0.8s cubic-bezier(0.86, 0, 0.07, 1);
+      }
+
+      #mobile-menu.open {
+        clip-path: circle(150% at top right);
+      }
+
+      .menu-link {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.5s ease;
+      }
+
+      #mobile-menu.open .menu-link {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Hamburger Icon Animation */
+      .hamburger-line {
+        transition: all 0.3s ease;
+      }
+
+      .open .line-1 {
+        transform: translateY(8px) rotate(45deg);
+      }
+
+      .open .line-2 {
+        opacity: 0;
+      }
+
+      .open .line-3 {
+        transform: translateY(-8px) rotate(-45deg);
+      }
+    </style>
+    <script type="text/javascript" src="./index.js" defer=""></script>
+    <link rel="stylesheet" href="./index.css">
   </head>
 
-  <body>
-    <header>
-      <div class="logo">
-        <img src="./img/Design_sem_nome-removebg-preview.png" alt="">
-      </div>
+  <body class="antialiased selection:bg-[#fb0165] selection:text-white relative">
 
+    <div class="noise"></div>
+    <div class="glow-dot top-[-5%] right-[-10%]"></div>
+    <div class="glow-dot bottom-[20%] left-[-5%]"></div>
 
-      <!-- Botão do menu hambúrguer -->
-      <button class="menu-toggle" aria-label="Abrir Menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+    <header class="fixed top-0 w-full z-[100] h-20 md:h-24 flex items-center px-6 md:px-10 justify-between mix-blend-difference">
+      <a href="#" class="flex items-center gap-3 md:gap-4 group relative z-[101]">
+        <div class="w-8 h-8 md:w-10 md:h-10 bg-white rounded-full flex items-center justify-center group-hover:bg-[#fb0165] transition-colors duration-500">
+          <div class="w-3 h-3 md:w-4 md:h-4 bg-black rounded-full"></div>
+        </div>
+        <span class="font-anta text-xl md:text-2xl tracking-[0.3em] text-white">SATURN</span>
+      </a>
 
-      <nav class="nav-menu">
-        <ul>
-          <li><a href="#about_us">Sobre</a></li>
-          <li><a href="#service">Serviços</a></li>
-          <li><a href="#portfolio">Portfolio</a></li>
-          <li><a href="#contact">Contato</a></li>
-        </ul>
+      <nav class="hidden lg:flex gap-16">
+        <a href="#about" class="text-[10px] tracking-[0.5em] uppercase hover:text-[#fb0165] transition-all">Concept</a>
+        <a href="#services" class="text-[10px] tracking-[0.5em] uppercase hover:text-[#fb0165] transition-all">Atelier</a>
+        <a href="#portfolio" class="text-[10px] tracking-[0.5em] uppercase hover:text-[#fb0165] transition-all">Curated</a>
+        <a href="#contact" class="text-[10px] tracking-[0.5em] uppercase hover:text-[#fb0165] transition-all">Dialogue</a>
       </nav>
 
-
+      <button id="menu-btn" class="lg:hidden relative z-[101] w-10 h-10 flex flex-col justify-center items-end gap-[6px] focus:outline-none">
+        <span class="hamburger-line line-1 w-8 h-[2px] bg-white"></span>
+        <span class="hamburger-line line-2 w-6 h-[2px] bg-white"></span>
+        <span class="hamburger-line line-3 w-8 h-[2px] bg-white"></span>
+      </button>
     </header>
 
-    <hr>
-
-    <section id="Hero-page">
-      <div class="hero_conteiner">
-        <div class="wrapple_texts">
-          <h1>SATURN FRONTWORK</h1>
-          <p>Elevando o front-end a outro universo</p>
-          <div class="button"><a href="#about_us">Explorar</a></div>
-        </div>
-        <div class="animation_conteiner">
-         
-          <img src="https://ymbr.studio/videos/0f40ebe871372f7fc60eced053a15e77.gif" alt="">
-        </div>
+    <div id="mobile-menu" class="fixed inset-0 z-[99] bg-black/95 backdrop-blur-xl flex flex-col justify-center items-center px-6">
+      <nav class="flex flex-col items-center gap-10 text-center">
+        <a href="#about" class="menu-link text-3xl font-anta tracking-widest uppercase hover:text-[#fb0165] transition-colors" style="transition-delay: 0.1s">Concept</a>
+        <a href="#services" class="menu-link text-3xl font-anta tracking-widest uppercase hover:text-[#fb0165] transition-colors" style="transition-delay: 0.2s">Atelier</a>
+        <a href="#portfolio" class="menu-link text-3xl font-anta tracking-widest uppercase hover:text-[#fb0165] transition-colors" style="transition-delay: 0.3s">Curated</a>
+        <a href="#contact" class="menu-link text-3xl font-anta tracking-widest uppercase hover:text-[#fb0165] transition-colors" style="transition-delay: 0.4s">Dialogue</a>
+      </nav>
+      <div class="absolute bottom-10 menu-link" style="transition-delay: 0.5s">
+        <p class="text-[10px] tracking-[0.3em] text-gray-500 uppercase">contact@saturnfront.work</p>
       </div>
-    </section>
+    </div>
 
-    <section id="about_us">
-      <div class="about_us_conteiner">
-        <div class="texts">
-          <h2>SOBRE NÓS</h2>
-          A Saturn Frontwork é uma empresa especializada no desenvolvimento de soluções front-end de alto desempenho, focada na criação de interfaces modernas, intuitivas e acessíveis. Nossa missão é transformar conceitos em experiências digitais impactantes, alinhando design e tecnologia para impulsionar negócios no ambiente digital. <br><br>
-
-          Com uma abordagem estratégica e orientada à inovação, trabalhamos com as melhores práticas do mercado para garantir performance, usabilidade e escalabilidade em cada projeto. Atuamos lado a lado com nossos clientes para oferecer soluções sob medida, que combinam estética sofisticada, eficiência técnica e conformidade com os padrões web mais recentes. <br><br>
-
-          Nosso compromisso é entregar produtos que não apenas se destacam visualmente, mas que também proporcionam uma experiência imersiva e fluida, garantindo a satisfação dos usuários e o sucesso das empresas que confiam em nosso trabalho.
-          <br> <br>
-          Saturn Frontwork – Elevando o front-end a um novo patamar.
-        </div>
+    <main id="about" class="relative pt-32 pb-20 md:pt-32 min-h-[90vh] md:min-h-screen flex flex-col justify-center px-6 md:px-10 overflow-hidden">
+      <div class="absolute right-[-5%] top-[50%] translate-y-[-50%] opacity-20 hidden xl:block pointer-events-none">
+        <div class="saturn-ring w-[600px] h-[600px]"></div>
+        <div class="saturn-ring w-[800px] h-[800px] animation-delay-500" style="animation-duration: 30s"></div>
       </div>
-    </section>
 
-    <section id="service">
-      <div class="service_conteiner">
-        <h2>Serviços</h2>
-        <div class="cards_conteiner">
-          <div class="card">
-
-            <svg fill="#ffffff" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve" stroke="#ffffff">
-              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-              <g id="SVGRepo_iconCarrier">
-                <g id="5151e0c8492e5103c096af88a51e75c7">
-                  <path display="inline" fill-rule="evenodd" clip-rule="evenodd" d="M1.008,0.5C0.438,0.583,0.48,1.27,0.521,1.958 c0,169.668,0,339.31,0,508.974c169.364,1.135,340.808,0.162,510.979,0.486c0-170.309,0-340.61,0-510.918 C341.342,0.5,171.167,0.5,1.008,0.5z M259.893,452.167c-11.822,11.919-30.478,18.938-53.429,18.938 c-37.643,0-58.543-18.34-71.884-43.711c12.842-8.2,25.966-16.122,39.344-23.795c5.456,15.262,23.886,32.42,44.683,21.857 c13.183-6.699,11.661-27.01,11.661-49.054c0-45.773,0-98.578,0-139.872c-0.042-0.688-0.083-1.375,0.482-1.458 c15.707,0,31.413,0,47.116,0c0,36.788,0,78.402,0,117.529C277.866,395.199,280.91,430.988,259.893,452.167z M470.696,409.917 c-2.674,39.884-35.243,61.063-79.17,61.188c-43.062,0.124-70.624-19.013-87.433-48.567c12.085-8.317,25.778-15.017,38.375-22.822 c10.08,15.761,27.537,30.91,53.429,28.652c16.131-1.406,34.856-14.555,24.285-34.482c-5.127-9.66-17.516-14.567-28.656-19.425 c-35.352-15.424-76.828-29.571-72.861-84.992c1.327-18.514,9.852-31.525,20.889-40.796c11.311-9.5,26.46-15.867,46.629-16.511 c36.629-1.173,56.723,15.12,70.429,37.884c-11.664,8.891-24.514,16.608-37.401,24.281c-4.229-12.995-24.644-25.658-41.772-17.969 c-7.789,3.493-14.788,13.761-10.684,26.224c3.66,11.115,18.589,17.199,30.599,22.344 C433.706,340.486,474.331,355.693,470.696,409.917z"> </path>
-                </g>
-              </g>
-            </svg>
-
-
-            <h3>Desenvolvimento Front-End</h3>
-            <p>Interfaces intuitivas e de alta performance.</p>
-          </div>
-          <div class="card">
-
-            <svg fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 60 60" xml:space="preserve">
-              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-              <g id="SVGRepo_iconCarrier">
-                <g>
-                  <g>
-                    <path d="M59,0H1C0.4,0,0,0.4,0,1v46c0,0.6,0.4,1,1,1h22v10h-3v2h4h12h4v-2h-3V48h22c0.6,0,1-0.4,1-1V1C60,0.4,59.6,0,59,0z M35,58 H25V48h10V58z M58,46H36H24H2v-8h3h22h6h22h3V46z M33.8,16.3l-2.9-7.6c-0.1-0.3-0.5-0.6-0.9-0.6s-0.8,0.2-0.9,0.6l-2.9,7.6 C26.1,16.5,26,16.7,26,17v19H6V6h48v30H34V17C34,16.7,33.9,16.5,33.8,16.3z M28.4,16l1.5-4.2l1.6,4.2H28.4z M29,18v18h-1V18H29z M31,18h1v18h-1V18z M58,36h-2V5c0-0.6-0.4-1-1-1H5C4.4,4,4,4.4,4,5v31H2V2h56V36z"></path>
-                    <path d="M51,25v-8c0-0.6-0.4-1-1-1H38v1v1v3h2v-3h4v3h2v-3h3v6H38v2h12C50.6,26,51,25.6,51,25z"></path>
-                    <path d="M9,17v8c0,0.6,0.4,1,1,1h12v-2H11v-6h3v3h2v-3h4v3h2v-3v-1v-1H10C9.4,16,9,16.4,9,17z"></path>
-                    <rect x="12" y="28" width="2" height="2"></rect>
-                    <rect x="16" y="28" width="2" height="2"></rect>
-                    <rect x="20" y="28" width="2" height="2"></rect>
-                    <rect x="38" y="28" width="2" height="2"></rect>
-                    <rect x="42" y="28" width="2" height="2"></rect>
-                    <rect x="46" y="28" width="2" height="2"></rect>
-                    <rect x="38" y="12" width="2" height="2"></rect>
-                    <rect x="42" y="12" width="2" height="2"></rect>
-                    <rect x="46" y="12" width="2" height="2"></rect>
-                    <rect x="12" y="12" width="2" height="2"></rect>
-                    <rect x="16" y="12" width="2" height="2"></rect>
-                    <rect x="20" y="12" width="2" height="2"></rect>
-                  </g>
-                </g>
-              </g>
-            </svg>
-
-            <h3>Design Responsivo &amp; Otimização de Performance</h3>
-            <p>Experiência perfeita em qualquer dispositivo e Melhoria de velocidade e acessibilidade.</p>
-          </div>
-          <div class="card">
-
-            <svg viewBox="0 0 2050 2050" data-name="Layer 3" id="Layer_3" xmlns="http://www.w3.org/2000/svg" fill="#000000">
-              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-              <g id="SVGRepo_iconCarrier">
-                <defs>
-                  <style>
-                    .cls-1 {
-                      fill: #ffffff;
-                    }
-
-                    .cls-2 {
-                      fill: #ffffff;
-                    }
-                  </style>
-                </defs>
-                <title></title>
-                <path class="cls-1" d="M1658.7,723.4v-53a171.2,171.2,0,0,0-171.2-171.2h-925A171.2,171.2,0,0,0,391.3,670.4v53a20.1,20.1,0,0,0,20.1,20.1H1638.6A20.1,20.1,0,0,0,1658.7,723.4Z"></path>
-                <path class="cls-1" d="M391.3,853.6v526a171.2,171.2,0,0,0,171.2,171.2h925a171.2,171.2,0,0,0,171.2-171.2v-526a20.1,20.1,0,0,0-20.1-20.1H411.4A20.1,20.1,0,0,0,391.3,853.6Z"></path>
-                <circle class="cls-2" cx="559.2" cy="624.1" r="38.7"></circle>
-                <circle class="cls-2" cx="678.5" cy="624.1" r="38.7"></circle>
-                <circle class="cls-2" cx="797.8" cy="624.1" r="38.7"></circle>
-              </g>
-            </svg>
-
-            <h3>Consultoria UX/UI</h3>
-            <p>Melhoria na experiência do usuário.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section  id="portfolio" class="portfolio_conteiner">
-      <h2>Portfólio</h2>
-      <div class="portfolio_cards">
-        <div class="portfolio_card">
-          <img src="./img/sushi-preview.png" alt="Projeto 1">
-          <div class="card_content">
-            <h3>Sushi Man</h3>
-            <p>landing page para loja de sushi</p>
-            <a href="https://hendersonsousa20.github.io/Sushi/">Ir para Projeto
+      <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        <div class="lg:col-span-8 z-10 text-center lg:text-left mt-10 md:mt-0">
+          <span class="text-[#fb0165] font-semibold tracking-[0.5em] md:tracking-[0.8em] text-[10px] md:text-xs mb-6 md:mb-8 block reveal uppercase">Beyond Interface</span>
+          <h1 class="text-display text-6xl sm:text-8xl md:text-9xl lg:text-[11rem] xl:text-[12rem] mb-8 md:mb-12 reveal">
+            DIGITAL<br>
+            <span class="text-transparent" style="-webkit-text-stroke: 1px white;">POETRY</span>
+          </h1>
+          <div class="flex flex-col lg:flex-row gap-8 lg:gap-12 items-center lg:items-end reveal">
+            <p class="max-w-md text-gray-400 font-light text-lg md:text-xl leading-relaxed text-center lg:text-left">
+              A Saturn Frontwork funde engenharia de precisão com estética visceral para marcas que buscam o extraordinário.
+            </p>
+            <a href="#contact" class="group flex items-center gap-4 mt-4 lg:mt-0">
+              <div class="w-16 h-16 md:w-20 md:h-20 rounded-full border border-white/20 flex items-center justify-center group-hover:scale-110 group-hover:border-[#fb0165] transition-all duration-500">
+                <svg class="w-5 h-5 md:w-6 md:h-6 text-white group-hover:text-[#fb0165]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                </svg>
+              </div>
+              <span class="text-[10px] md:text-xs tracking-widest font-bold uppercase group-hover:text-[#fb0165] transition-colors">Start Journey</span>
             </a>
           </div>
         </div>
 
-        <div class="portfolio_card">
-          <img src="./img/Captura de tela 2025-01-31 101140.png" alt="Projeto 2">
-          <div class="card_content">
-            <h3>Art cards</h3>
-            <p>Projeto artistico de teor academico</p>
-            <a href="https://hendersonsousa20.github.io/ART-cards/">Ir para Projeto</a>
+        <div class="lg:col-span-4 flex justify-center items-center order-first lg:order-last">
+          <div class="relative w-4/5 sm:w-2/3 lg:w-full aspect-square reveal">
+            <img src="./img/AZ1vgATg-_D_SQgvDLiKAA-AZ1vgATgYTmWvv_8UxFfew-removebg-preview.png" alt="Saturn">
           </div>
         </div>
+      </div>
+    </main>
 
-        <div class="portfolio_card">
-          <img src="./img/Captura de tela 2025-01-31 102006.png" alt="Projeto 3">
-          <div class="card_content">
-            <h3>jogo da garra</h3>
-            <p>Projeto ainda em desenvolvimento para uma equipe de games.</p>
-            <a href="https://hendersonsousa20.github.io/Jogo-da-garra/">Ir para projeto</a>
+    <section id="services" class="py-24 md:py-40 px-6 md:px-10 relative">
+      <div class="max-w-7xl mx-auto">
+        <div class="flex flex-col md:flex-row md:items-center gap-6 md:gap-8 mb-16 md:mb-32 reveal">
+          <h2 class="font-anta text-4xl md:text-5xl tracking-tighter">OUR EXPERTISE</h2>
+          <div class="h-[1px] w-1/3 md:flex-grow bg-white/10"></div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[2px] bg-white/5 border border-white/10">
+          <div class="glass-panel p-8 md:p-10 h-[350px] md:h-[450px] flex flex-col justify-between reveal">
+            <div>
+              <span class="text-[#fb0165] font-bold text-[10px] md:text-xs mb-6 md:mb-8 block tracking-widest">01 / ARCHITECTURE</span>
+              <h3 class="text-2xl md:text-3xl font-light mb-4">Advanced <br>Next.js Core</h3>
+            </div>
+            <p class="text-gray-500 text-xs md:text-sm leading-relaxed">Estruturas robustas focadas em Web Vitals e renderização ultra-rápida no lado do servidor.</p>
+          </div>
+
+          <div class="glass-panel p-8 md:p-10 h-[350px] md:h-[450px] flex flex-col justify-between reveal" style="transition-delay: 100ms;">
+            <div>
+              <span class="text-[#fb0165] font-bold text-[10px] md:text-xs mb-6 md:mb-8 block tracking-widest">02 / MOTION</span>
+              <h3 class="text-2xl md:text-3xl font-light mb-4">GSAP &amp; <br>WebGL Flows</h3>
+            </div>
+            <p class="text-gray-500 text-xs md:text-sm leading-relaxed">Animações de alta fidelidade que dão vida a produtos digitais estáticos.</p>
+          </div>
+
+          <div class="glass-panel p-8 md:p-10 h-[350px] md:h-[450px] flex flex-col justify-between reveal" style="transition-delay: 200ms;">
+            <div>
+              <span class="text-[#fb0165] font-bold text-[10px] md:text-xs mb-6 md:mb-8 block tracking-widest">03 / LUXURY UI</span>
+              <h3 class="text-2xl md:text-3xl font-light mb-4">Visual <br>Minimalism</h3>
+            </div>
+            <p class="text-gray-500 text-xs md:text-sm leading-relaxed">Interfaces limpas, tipografia rigorosa e uso estratégico de espaços negativos.</p>
+          </div>
+
+          <div class="glass-panel p-8 md:p-10 h-[350px] md:h-[450px] flex flex-col justify-between reveal" style="transition-delay: 300ms;">
+            <div>
+              <span class="text-[#fb0165] font-bold text-[10px] md:text-xs mb-6 md:mb-8 block tracking-widest">04 / CONSULTANCY</span>
+              <h3 class="text-2xl md:text-3xl font-light mb-4">Global UX <br>Strategy</h3>
+            </div>
+            <p class="text-gray-500 text-xs md:text-sm leading-relaxed">Mapeamento de jornada do usuário para escala global e conversão orgânica.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="contact" class="contact">
-      <h2>Contato</h2>
-      <p>Pronto para transformar sua ideia em algo incrível? Entre em contato conosco!</p>
-      <form>
-        <input type="text" placeholder="Seu Nome" required="">
-        <input type="email" placeholder="Seu E-mail" required="">
-        <textarea placeholder="Sua Mensagem" required=""></textarea>
-        <button type="submit">Enviar</button>
-      </form>
+    <section id="portfolio" class="py-24 md:py-40 bg-zinc-950">
+      <div class="max-w-[1600px] mx-auto px-6 md:px-10">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 md:mb-24 reveal">
+          <div>
+            <span class="text-gray-600 tracking-[0.5em] text-[10px] uppercase mb-4 block">Selection 2024—2025</span>
+            <h2 class="text-5xl md:text-7xl font-anta tracking-tight">CURATED<br>WORKS</h2>
+          </div>
+          <div class="text-left md:text-right mt-6 md:mt-0 hidden sm:block">
+            <p class="text-gray-500 text-xs md:text-sm mb-4">Explorando o limite entre <br> código e arte visual.</p>
+            <a href="#" class="text-[10px] md:text-xs font-bold tracking-widest border-b border-[#fb0165] pb-2 hover:text-[#fb0165] transition-colors">VIEW ALL CASE STUDIES</a>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-y-16 md:gap-y-32 lg:gap-x-20">
+          <div class="lg:col-span-7 group cursor-pointer reveal">
+            <div class="relative overflow-hidden bg-zinc-900 aspect-video lg:aspect-[16/10] mb-6 md:mb-10 rounded-xl md:rounded-none">
+              <img src="./img/sushi-preview.png" class="w-full h-full object-cover lg:grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" alt="Sushi">
+              <div class="absolute top-4 left-4 md:top-8 md:left-8 bg-black/80 px-3 py-1 md:px-4 md:py-2 text-[8px] md:text-[10px] tracking-widest border border-white/10 backdrop-blur-sm">01 / BRANDING</div>
+            </div>
+            <div class="flex justify-between items-center px-2 md:px-0">
+              <h4 class="text-2xl md:text-4xl font-light">SUSHI MAN ATELIER</h4>
+              <div class="w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path d="M17 7l-10 10M17 7h-10M17 7v10" stroke-width="2"></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 pt-0 lg:pt-40 group cursor-pointer reveal">
+            <div class="relative overflow-hidden bg-zinc-900 aspect-square lg:aspect-[4/5] mb-6 md:mb-10 rounded-xl md:rounded-none">
+              <img src="./img/Captura de tela 2025-01-31 101140.png" class="w-full h-full object-cover lg:grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-1000" alt="Art">
+              <div class="absolute top-4 left-4 md:top-8 md:left-8 bg-black/80 px-3 py-1 md:px-4 md:py-2 text-[8px] md:text-[10px] tracking-widest border border-white/10 backdrop-blur-sm">02 / INTERFACE</div>
+            </div>
+            <h4 class="text-2xl md:text-4xl font-light px-2 md:px-0">ART GALLERY CARDS</h4>
+            <p class="text-gray-500 mt-2 md:mt-4 font-light text-sm md:text-base px-2 md:px-0">Estudo acadêmico de grids quebrados e tipografia experimental.</p>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <footer class="footer">
-      <div class="container">
-        <p>© 2025 Saturn Frontwork. Todos os direitos reservados.</p>
+    <section class="py-24 md:py-40 px-6 md:px-10 border-t border-white/5">
+      <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 md:gap-20">
+        <div class="lg:w-1/3">
+          <h2 class="text-xs md:text-sm tracking-[0.5em] text-[#fb0165] uppercase font-bold mb-10 md:mb-12">The Method</h2>
+          <div class="space-y-12 md:space-y-20">
+            <div class="reveal">
+              <span class="text-2xl md:text-3xl font-anta opacity-30">01</span>
+              <h4 class="text-lg md:text-xl font-bold mt-2 md:mt-4 mb-2">IMMERSION</h4>
+              <p class="text-gray-500 font-light text-sm md:text-base">Entendemos o DNA da sua marca para traduzi-lo em código.</p>
+            </div>
+            <div class="reveal" style="transition-delay: 100ms;">
+              <span class="text-2xl md:text-3xl font-anta opacity-30">02</span>
+              <h4 class="text-lg md:text-xl font-bold mt-2 md:mt-4 mb-2">SCULPTING</h4>
+              <p class="text-gray-500 font-light text-sm md:text-base">O design e o front-end nascem juntos em um processo iterativo.</p>
+            </div>
+          </div>
+        </div>
+        <div class="lg:w-2/3 glass-panel p-10 md:p-20 flex flex-col justify-center items-center text-center reveal rounded-2xl md:rounded-none">
+          <blockquote class="text-2xl sm:text-3xl md:text-5xl font-light leading-snug md:leading-tight italic">
+            "O front-end não é apenas código; é a última camada de verdade entre uma marca e seu usuário."
+          </blockquote>
+          <cite class="mt-8 md:mt-12 text-[#fb0165] font-bold tracking-[0.3em] uppercase text-[10px] md:text-xs not-italic">— Saturn Manifesto</cite>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="py-24 md:py-40 px-6 md:px-10 relative overflow-hidden">
+      <div class="max-w-3xl mx-auto relative z-10">
+        <div class="text-center mb-16 md:mb-24 reveal">
+          <h2 class="text-5xl md:text-7xl font-anta mb-4 md:mb-8">SAY HELLO</h2>
+          <p class="text-gray-500 tracking-[0.3em] md:tracking-widest uppercase text-[10px] md:text-xs">Let's build the next digital icon</p>
+        </div>
+
+        <form class="space-y-8 md:space-y-12 reveal">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+            <div class="relative group">
+              <input type="text" placeholder="NAME" class="w-full bg-transparent border-b border-white/10 py-4 md:py-6 text-sm focus:outline-none focus:border-[#fb0165] transition-colors peer placeholder:text-gray-700">
+              <div class="absolute bottom-0 left-0 w-0 h-[1px] bg-[#fb0165] transition-all duration-700 peer-focus:w-full"></div>
+            </div>
+            <div class="relative group">
+              <input type="email" placeholder="EMAIL" class="w-full bg-transparent border-b border-white/10 py-4 md:py-6 text-sm focus:outline-none focus:border-[#fb0165] transition-colors peer placeholder:text-gray-700">
+              <div class="absolute bottom-0 left-0 w-0 h-[1px] bg-[#fb0165] transition-all duration-700 peer-focus:w-full"></div>
+            </div>
+          </div>
+          <div class="relative group">
+            <textarea placeholder="MESSAGE" rows="3" class="w-full bg-transparent border-b border-white/10 py-4 md:py-6 text-sm focus:outline-none focus:border-[#fb0165] transition-colors peer placeholder:text-gray-700 resize-none"></textarea>
+            <div class="absolute bottom-0 left-0 w-0 h-[1px] bg-[#fb0165] transition-all duration-700 peer-focus:w-full"></div>
+          </div>
+          <button class="w-full py-6 md:py-8 border border-white/10 hover:bg-white hover:text-black transition-all duration-500 font-bold tracking-[0.4em] md:tracking-[0.5em] uppercase text-[10px]">
+            Deploy Message
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <footer class="py-12 md:py-20 px-6 md:px-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 md:gap-10 text-center md:text-left">
+      <div class="font-anta text-lg md:text-xl tracking-tighter">SATURN <span class="text-[#fb0165]">FW</span></div>
+      <div class="text-[8px] md:text-[10px] tracking-[0.2em] md:tracking-[0.3em] text-gray-600 uppercase">
+        © 2026 Saturn Frontwork — Studio for Advanced Front-end
+      </div>
+      <div class="flex gap-8 md:gap-10 text-[10px] tracking-[0.3em] font-bold uppercase">
+        <a href="#" class="hover:text-[#fb0165] transition-colors">LN</a>
+        <a href="#" class="hover:text-[#fb0165] transition-colors">IG</a>
       </div>
     </footer>
 
+    <script>
+      // Reveal Animations on Scroll
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px"
+      };
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+          }
+        });
+      }, observerOptions);
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
+      // Mobile Menu Logic
+      const menuBtn = document.getElementById('menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const menuLinks = document.querySelectorAll('.menu-link');
 
+      function toggleMenu() {
+        menuBtn.classList.toggle('open');
+        mobileMenu.classList.toggle('open');
+        // Prevent body scroll when menu is open
+        document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+      }
+
+      menuBtn.addEventListener('click', toggleMenu);
+
+      // Close menu when a link is clicked
+      menuLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          if (mobileMenu.classList.contains('open')) {
+            toggleMenu();
+          }
+        });
+      });
+    </script>
 
   </body>
 
